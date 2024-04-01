@@ -90,19 +90,17 @@ public class Main {
             statement.close();
         }
 
-    public static void moveDepartment (Connection connexion,int empno, int newDeptno) throws SQLException {
-        PreparedStatement statement = connexion.prepareStatement("UPDATE emp SET deptno = ? WHERE empno = ?");
-        statement.setInt(1, newDeptno);
-        statement.setInt(2, empno);
+    public static void moveDepartment(Connection connection, int empno, int newDeptno) throws SQLException {
+        String query = "UPDATE emp SET deptno = ? WHERE empno = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, newDeptno);
+            statement.setInt(2, empno);
 
-        int rowsAffected = statement.executeUpdate();
-        if (rowsAffected > 0) {
-            System.out.println("Employee " + empno + " moved to department " + newDeptno);
-        } else {
-            System.out.println("No rows affected.");
+            int rowsAffected = statement.executeUpdate();
+            System.out.println("Rows affected: " + rowsAffected);
         }
-        statement.close();
     }
+
 
     public static void findEmployeeByName (Connection connection){
         Scanner sc = new Scanner(System.in);
@@ -150,4 +148,3 @@ public class Main {
         }
     }
 }
-
